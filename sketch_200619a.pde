@@ -2,7 +2,7 @@
 int TIMER_X = 0;
 int TIMER_Y = 0;
 int MARGIN = 25;
-
+int EXIT_WIDTH = 50;
 
 int timerStart = 0;
 boolean isTimerStarted = false;
@@ -55,18 +55,31 @@ void drawStartFinish()
   text("F", width-MARGIN, height-MARGIN);
 }
 
+boolean coinToss()
+{
+  return int(random(2)) == 0;
+}
+
 void drawBoard()
 {
   stroke(0);
+  strokeWeight(3);
   int NUM_WALLS = 10;
   int WALL_DIST = width/(NUM_WALLS+1);
   for(int x = 0; x < NUM_WALLS; x++)
   {
-    line((x+1) * WALL_DIST, 0 , (x+1) * WALL_DIST, height);
+    boolean r = coinToss();
+    
+    line((x+1) * WALL_DIST, r ? EXIT_WIDTH: 0, (x+1) * WALL_DIST, height - (r ? 0: EXIT_WIDTH));
+    
+    if(x % 2 == 0)
+    {
+      line((x+1) * WALL_DIST, height/2, (x+2) * WALL_DIST, height/2);
+    }
   }
   
   stroke(255);
-  int EXIT_WIDTH = 50;
+  
   for(int x = 0; x < NUM_WALLS; x++)
   {
     int y = int(random(0, height - EXIT_WIDTH));
