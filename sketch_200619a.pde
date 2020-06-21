@@ -1,5 +1,12 @@
-int prevX = 0;
-int prevY = 0;
+
+int TIMER_X = 320;
+int TIMER_Y = 40;
+int MARGIN = 25;
+
+
+int timerStart = 0;
+boolean isTimerStarted = false;
+boolean isRaceFinished = false;
 
 void setup()
 {
@@ -13,18 +20,29 @@ void setup()
 void draw()
 {
    if (mousePressed) {
-    stroke(0, 0, 255);
-    if( prevX != 0 && prevY != 0)
-      line(prevX, prevY, mouseX, mouseY);
-    prevX = mouseX;
-    prevY = mouseY;
+     
+     if(isTimerStarted && !isRaceFinished)
+     {
+      if(get(mouseX, mouseY) == color(0,255,0))
+       {
+          stopTimer(); 
+       }
+       
+       stroke(0, 0, 255);
+       line(pmouseX, pmouseY, mouseX, mouseY);
+
+     }
+     else if(get(mouseX, mouseY) == color(255,0,0))
+     {
+       startTimer();
+     }
    }
   
 }
 
 void drawStartFinish()
 {
-  int MARGIN = 25;
+  
   textSize(24);
   fill(255,0,0);
   text("S", MARGIN, MARGIN);
@@ -51,4 +69,16 @@ void drawBoard()
     line(x * WALL_DIST, y , x * WALL_DIST, y + EXIT_WIDTH);
   }
   
+}
+
+void startTimer(){
+  timerStart = millis();
+  isTimerStarted = true;
+}
+
+void stopTimer() {
+  isTimerStarted = false;
+  isRaceFinished = true;
+  fill(0);
+  text(Integer.toString(millis() - timerStart), TIMER_X, TIMER_Y);
 }
