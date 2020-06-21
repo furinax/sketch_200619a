@@ -59,10 +59,10 @@ void drawBoard()
 {
   stroke(0);
   int NUM_WALLS = 10;
-  int WALL_DIST = width/NUM_WALLS;
+  int WALL_DIST = width/(NUM_WALLS+1);
   for(int x = 0; x < NUM_WALLS; x++)
   {
-    line(x * WALL_DIST, 0 , x * WALL_DIST, height);
+    line((x+1) * WALL_DIST, 0 , (x+1) * WALL_DIST, height);
   }
   
   stroke(255);
@@ -70,7 +70,7 @@ void drawBoard()
   for(int x = 0; x < NUM_WALLS; x++)
   {
     int y = int(random(0, height - EXIT_WIDTH));
-    line(x * WALL_DIST, y , x * WALL_DIST, y + EXIT_WIDTH);
+    line((x+1) * WALL_DIST, y , (x+1) * WALL_DIST, y + EXIT_WIDTH);
   }
   
 }
