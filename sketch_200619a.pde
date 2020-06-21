@@ -1,6 +1,6 @@
 
-int TIMER_X = 320;
-int TIMER_Y = 40;
+int TIMER_X = 0;
+int TIMER_Y = 0;
 int MARGIN = 25;
 
 
@@ -8,10 +8,13 @@ int timerStart = 0;
 boolean isTimerStarted = false;
 boolean isRaceFinished = false;
 
+PGraphics pgTimer;
+
 void setup()
 {
   size(640,480);
   background(255);
+  pgTimer = createGraphics(100,25);
   //draw maze
   drawBoard();
   drawStartFinish();
@@ -23,6 +26,7 @@ void draw()
      
      if(isTimerStarted && !isRaceFinished)
      {
+       drawTimer();
       if(get(mouseX, mouseY) == color(0,255,0))
        {
           stopTimer(); 
@@ -71,6 +75,16 @@ void drawBoard()
   
 }
 
+void drawTimer(){
+  pgTimer.beginDraw();
+  pgTimer.background(0);
+  pgTimer.fill(255);
+  pgTimer.textSize(16);
+  pgTimer.text(Integer.toString(millis() - timerStart), 20, 20);
+  pgTimer.endDraw();
+  image(pgTimer, TIMER_X, TIMER_Y);
+}
+
 void startTimer(){
   timerStart = millis();
   isTimerStarted = true;
@@ -79,6 +93,5 @@ void startTimer(){
 void stopTimer() {
   isTimerStarted = false;
   isRaceFinished = true;
-  fill(0);
-  text(Integer.toString(millis() - timerStart), TIMER_X, TIMER_Y);
+  
 }
