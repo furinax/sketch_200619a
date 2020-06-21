@@ -62,28 +62,44 @@ boolean coinToss()
 
 void drawBoard()
 {
-  stroke(0);
+
   strokeWeight(3);
   int NUM_WALLS = 10;
   int WALL_DIST = width/(NUM_WALLS+1);
   for(int x = 0; x < NUM_WALLS; x++)
   {
+    stroke(0);
     boolean r = coinToss();
+    int x0 = (x+1) * WALL_DIST;
     
-    line((x+1) * WALL_DIST, r ? EXIT_WIDTH: 0, (x+1) * WALL_DIST, height - (r ? 0: EXIT_WIDTH));
+    //draw level
+    line(x0, 0, x0, height);
     
+    //draw median every other level
     if(x % 2 == 0)
     {
-      line((x+1) * WALL_DIST, height/2, (x+2) * WALL_DIST, height/2);
+      line(x0, height/2, x0 + WALL_DIST, height/2);
     }
-  }
-  
-  stroke(255);
-  
-  for(int x = 0; x < NUM_WALLS; x++)
-  {
-    int y = int(random(0, height - EXIT_WIDTH));
-    line((x+1) * WALL_DIST, y , (x+1) * WALL_DIST, y + EXIT_WIDTH);
+    
+    stroke(255);
+    //draw exits in level
+    int y = !r ? height/4 : 3*height/5;
+   
+    if(x % 2 == 1)
+    {
+      boolean r1 = coinToss();
+    
+      if(r1)
+        line(x0, y , x0, y + EXIT_WIDTH);
+      else
+        line(x0, r ? 0: height - EXIT_WIDTH , x0, r ? EXIT_WIDTH: height);
+    }
+    else
+    {
+      line(x0, y , x0, y + EXIT_WIDTH);
+      line(x0, r ? 0: height - EXIT_WIDTH , x0, r ? EXIT_WIDTH: height);
+    }
+    
   }
   
 }
